@@ -42,7 +42,7 @@ const AnimatedContent: React.FC = () => {
   const location = useLocation();
 
   return (
-    <AnimatePresence mode='popLayout'>
+    <AnimatePresence mode='wait'>
       <Routes location={location} key={location.pathname}>
         <Route index element={<Home />} />
         <Route path="illustrations" element={<Illustrations />} />

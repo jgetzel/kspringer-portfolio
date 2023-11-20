@@ -5,6 +5,7 @@ import { Illustration } from '../types/Illustration';
 import { AnimatePresence, motion } from 'framer-motion';
 import IllustrationModal from '../components/IllustrationModal';
 import { loadImageDimensions } from '../helpers/IllustrationHelper';
+import { PAGE_TRANSITION_DISTANCE, PAGE_TRANSITION_DURATION } from '../constants/animConstants';
 
 
 
@@ -74,7 +75,7 @@ const Illustrations: React.FC = () => {
   };
 
   const pageMotionVariants = {
-    hidden: { opacity: 0, y: 30 },
+    exit: { opacity: 0, y: PAGE_TRANSITION_DISTANCE },
     visible: { opacity: 1, y: 0 }
   };
 
@@ -83,9 +84,9 @@ const Illustrations: React.FC = () => {
       <IllustrationModal illustration={selectedIllustration} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
       <motion.div
         key="illustrations-grid"
-        exit="hidden"
+        exit="exit"
         variants={pageMotionVariants}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: PAGE_TRANSITION_DURATION }}
       >
         <div className={`m-4 md:m-8 lg:m-16 xl:m-32 flex flex-row grid gap-10 ${gridClass}`}>
           {columns.map((column, index) => (
