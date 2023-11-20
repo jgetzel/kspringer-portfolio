@@ -61,7 +61,6 @@ const Illustrations: React.FC = () => {
 
 
   const handleCardClick = (illustration: Illustration) => {
-    console.log(illustration);
     setSelectedIllustration(illustration);
     setIsModalOpen(true);
   };
