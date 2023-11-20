@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import IllustrationCard from '../components/IllustrationCard';
 import { illustrationsData } from '../data/illustrationsData';
 import { Illustration } from '../types/Illustration';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import IllustrationModal from '../components/IllustrationModal';
 import { loadImageDimensions } from '../helpers/IllustrationHelper';
 
@@ -68,31 +68,43 @@ const Illustrations: React.FC = () => {
   const gridClass = () => "grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4";
   
   // Animation variants
-  const variants = {
+  const cardMotionvariants = {
     hidden: { opacity: 0, y: -30 },
+    visible: { opacity: 1, y: 0 }
+  };
+
+  const pageMotionVariants = {
+    hidden: { opacity: 0, y: 30 },
     visible: { opacity: 1, y: 0 }
   };
 
   return (
     <div>
       <IllustrationModal illustration={selectedIllustration} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-      <div className={`m-4 md:m-8 lg:m-16 xl:m-32 flex flex-row grid gap-10 ${gridClass}`}>
-        {columns.map((column, index) => (
-          <div key={index} className="flex flex-col gap-4 md:gap-8">
-            {column.map((illustration, illustrationIndex) => (
-              <motion.div
-                key={illustration.id}
-                initial="hidden"
-                animate="visible"
-                variants={variants}
-                transition={{ duration: 0.5, delay: Number(illustration.id) * 0.1 }}
-              >
-                <IllustrationCard illustration={illustration} onClick={handleCardClick} />
-              </motion.div>
-            ))}
-          </div>
-        ))}
-      </div>
+      <motion.div
+        key="illustrations-grid"
+        exit="hidden"
+        variants={pageMotionVariants}
+        transition={{ duration: 0.3 }}
+      >
+        <div className={`m-4 md:m-8 lg:m-16 xl:m-32 flex flex-row grid gap-10 ${gridClass}`}>
+          {columns.map((column, index) => (
+            <div key={index} className="flex flex-col gap-4 md:gap-8">
+              {column.map((illustration, illustrationIndex) => (
+                <motion.div
+                  key={illustration.id}
+                  initial="hidden"
+                  animate="visible"
+                  variants={cardMotionvariants}
+                  transition={{ duration: 0.5, delay: Number(illustration.id) * 0.1 }}
+                >
+                  <IllustrationCard illustration={illustration} onClick={handleCardClick} />
+                </motion.div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </motion.div>
     </div>
   );
 }
