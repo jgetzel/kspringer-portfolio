@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Illustration } from '../types/Illustration';
-import { useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 type IllustrationModalProps = {
     illustration: Illustration | null;
