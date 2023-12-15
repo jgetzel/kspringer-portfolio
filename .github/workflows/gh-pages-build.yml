@@ -1,0 +1,17 @@
+
+name: GH Pages Build
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v2
+        - name: Build and Deploy to GH Pages
+          uses: peaceiris/actions-gh-pages@v3
+          with:
+            ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            BRANCH: gh-pages
