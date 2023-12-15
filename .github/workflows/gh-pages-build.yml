@@ -13,5 +13,5 @@ jobs:
         - name: Build and Deploy to GH Pages
           uses: peaceiris/actions-gh-pages@v3
           with:
-            ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            BRANCH: gh-pages
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            publish_branch: gh-pages
