@@ -1,5 +1,5 @@
 
-name: GH Pages Build
+name: GH Pages CD
 
 on:
   push:
