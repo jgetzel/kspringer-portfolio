@@ -23,7 +23,7 @@ jobs:
           env:
             CI: false
         - name: Create CNAME
-          run: echo "${{ env.CNAME_URL }}" > ./build/CNAME
+          run: echo "${{ secrets.CNAME_URL }}" > ./build/CNAME
         - name: Deploy to GH Pages
           uses: peaceiris/actions-gh-pages@v3
           with:
