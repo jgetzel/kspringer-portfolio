@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Outlet, useLocation } from 'react-router-dom';
 import Illustrations from './pages/Illustrations';
 import Games from './pages/Games';
+import About from './pages/About';
 import Sidebar from './components/common/Sidebar';
 import Footer from './components/common/Footer';
 import Home from './pages/Home';
@@ -14,9 +15,10 @@ const App: React.FC = () => {
     <Router>
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} /> {/* Assuming you have a Home component */}
+            <Route index element={<Home />} />
             <Route path="illustrations" element={<Illustrations />} />
             <Route path="games" element={<Games />} />
+            <Route path="about" element={<About />} />
             {/* other routes */}
           </Route>
         </Routes>
@@ -47,6 +49,7 @@ const AnimatedContent: React.FC = () => {
         <Route index element={<Home />} />
         <Route path="illustrations" element={<Illustrations />} />
         <Route path="games" element={<Games />} />
+        <Route path="about" element={<About />} />
       </Routes>
     </AnimatePresence>
   );
