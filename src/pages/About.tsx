@@ -18,6 +18,12 @@ const About: React.FC = () => {
     >
       <h1>About</h1>
       <p>This is the about page.</p>
+      <div className="flex justify-center items-center space-x-2">
+          <img src="/path-to-instagram-icon.png" alt="Instagram" className="w-5 h-5" />
+          <span>kristina s.</span>
+          <img src="/path-to-link-icon.png" alt="Link" className="w-5 h-5" />
+          <a href="https://linktr.ee/eowmie" className="text-blue-500 hover:underline">linktr.ee/eowmie</a>
+        </div>
     </motion.div>
   );
 };
