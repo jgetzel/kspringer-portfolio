@@ -54,7 +54,7 @@ const IllustrationModal: React.FC<IllustrationModalProps> = ({
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -50 }}
         transition={{ duration: 0.35 }}
-        className="bg-white rounded-lg shadow-xl max-w-4xl w-full mx-4 flex flex-col h-[80vh]"
+        className="bg-white shadow-xl w-full mx-4 flex flex-col h-[80vh] w-[90vw] rounded-lg p-4"
         onClick={(e: React.MouseEvent) => e.stopPropagation()}
       >
         <div className="relative flex-grow overflow-hidden">
