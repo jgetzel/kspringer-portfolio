@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Lock } from 'lucide-react';
+import { ExternalLink, Lock } from 'lucide-react';
 import { PAGE_TRANSITION_DISTANCE, PAGE_TRANSITION_DURATION } from '../constants/animConstants';
 
 export enum Platform {
@@ -87,11 +87,16 @@ const Games: React.FC = () => {
 
 const GameCard: React.FC<{ game: Game }> = ({ game }) => {
   const ImageContainer = ({ children }: { children: React.ReactNode }) => (
-    <div className="bg-white rounded-lg shadow-lg overflow-hidden aspect-square relative group">
+    <div className="bg-white rounded-lg shadow-lg overflow-hidden aspect-square relative group transition-all duration-300 ease-in-out transform hover:scale-105">
       {children}
       {!game.link && (
-        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <Lock className="text-white" size={32} />
+        </div>
+      )}
+      {game.link && (
+        <div className="absolute top-2 right-2 bg-white rounded-full p-1 shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <ExternalLink className="text-gray-600" size={16} />
         </div>
       )}
     </div>
@@ -102,7 +107,7 @@ const GameCard: React.FC<{ game: Game }> = ({ game }) => {
       {game.link ? (
         <a href={game.link} target="_blank" rel="noopener noreferrer" className="block">
           <ImageContainer>
-            <img src={game.imageUrl} alt={game.title} className="w-full h-full object-cover transition-transform duration-150 group-hover:scale-105" />
+            <img src={game.imageUrl} alt={game.title} className="w-full h-full object-cover" />
           </ImageContainer>
         </a>
       ) : (
