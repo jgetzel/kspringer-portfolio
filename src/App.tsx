@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Outlet, useLocation } from 'react-router-dom';
+import { HashRouter as Router, Route, Routes, Outlet, useLocation } from 'react-router-dom';
 import Illustrations from './pages/Illustrations';
 import Games from './pages/Games';
 import About from './pages/About';
