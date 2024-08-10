@@ -49,7 +49,7 @@ const AnimatedContent: React.FC = () => {
         <Route index element={<Home />} />
         <Route path="illustrations" element={<Illustrations />} />
         <Route path="games" element={<Games />} />
-        <Route path="about" element={<About />} />
+        {/* <Route path="about" element={<About />} /> */}
       </Routes>
     </AnimatePresence>
   );

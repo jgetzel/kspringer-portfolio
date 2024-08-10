@@ -31,9 +31,9 @@ const Sidebar: React.FC = () => {
                         <li>
                             <Link to="/games" className={`${linkStyle} ${linkIsActive('/games')}`}>Games</Link>
                         </li>
-                        <li>
+                        {/* <li>
                             <Link to="/about" className={`${linkStyle} ${linkIsActive('/about')}`}>About</Link>
-                        </li>
+                        </li> */}
                         {/* Add more links as needed */}
                     </ul>
                 </nav>

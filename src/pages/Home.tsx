@@ -105,7 +105,7 @@ const Home: React.FC = () => {
                     </Link>
                 </div>
             </section>
-
+{/* 
             <section className="mt-16 text-center max-w-xl mb-8">
                 <h2 className="text-2xl font-bold mb-3">Let's Connect</h2>
                 <p className="text-base mb-4 leading-relaxed">
@@ -117,7 +117,7 @@ const Home: React.FC = () => {
                     Learn More About Me
                     <ArrowRight className="ml-2" size={16} />
                 </Link>
-            </section>
+            </section> */}
         </motion.div>
     );
 };
