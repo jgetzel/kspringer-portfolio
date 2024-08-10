@@ -11,28 +11,27 @@ import { PAGE_TRANSITION_DISTANCE, PAGE_TRANSITION_DURATION } from '../constants
 
 type ColumnsType = Illustration[][];
 
-const loadAllImages = async (illustrations: Illustration[], columnsAmount: number, setColumns: (columns: ColumnsType) => any) => {
-  const standardColumnWidth = 200; // Adjust this value based on your column width
+const loadAllImages = async (
+  illustrations: Illustration[],
+  columnsAmount: number,
+  setColumns: (columns: ColumnsType) => void
+) => {
+  const standardColumnWidth = 200; // Define the standard width for calculation of normalized height
+  const newColumns: ColumnsType = Array.from({ length: columnsAmount }, () => []); // Initialize columns array with empty arrays for each column
+  let columnHeights = new Array(columnsAmount).fill(0); // Keep track of the current height of each column
 
-  const illustrationsWithDimensions = await Promise.all(
-    illustrations.map(async (illustration) => {
-      const { width, height } = await loadImageDimensions(illustration.imageUrl);
-      const normalizedHeight = (height / width) * standardColumnWidth;
-      return { ...illustration, height, normalizedHeight };
-    })
-  );
+  for (const illustration of illustrations) { // Process each illustration sequentially
+    const { width, height } = await loadImageDimensions(illustration.imageUrl); // Load the image dimensions    
+    const normalizedHeight = (height / width) * standardColumnWidth; // Calculate the normalized height based on standard width
+    const updatedIllustration = { ...illustration, height, normalizedHeight }; // Create updated illustration object with height information
+    const shortestColumnIndex = columnHeights.indexOf(Math.min(...columnHeights)); // Find the column with the shortest height
+    newColumns[shortestColumnIndex].push(updatedIllustration); // Add the illustration to the shortest column
+    columnHeights[shortestColumnIndex] += normalizedHeight; // Update the height of the column
 
-  // Initialize columns and column heights based on columnsAmount
-  const newColumns: ColumnsType = Array.from({ length: columnsAmount }, () => []);
-  let columnHeights = new Array(columnsAmount).fill(0);
-
-  illustrationsWithDimensions.forEach(illustration => {
-    const shortestColumnIndex = columnHeights.indexOf(Math.min(...columnHeights));
-    newColumns[shortestColumnIndex].push(illustration);
-    columnHeights[shortestColumnIndex] += illustration.normalizedHeight || 0;
-  });
-
-  setColumns(newColumns);
+    // Update the state with the new columns
+    // This triggers a re-render, showing the new image
+    setColumns([...newColumns]);
+  }
 };
 
 const Illustrations: React.FC = () => {
