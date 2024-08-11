@@ -81,6 +81,20 @@ const Games: React.FC = () => {
           <GameCard key={index} game={game} />
         ))}
       </div>
+
+      <footer className="mt-16 text-sm text-gray-500">
+        <p>
+          Platform icons by{' '}
+          <a 
+            href="https://icons8.com" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-blue-500 hover:text-blue-600 transition-colors duration-300"
+          >
+            Icons8
+          </a>
+        </p>
+      </footer>
     </motion.div>
   );
 };

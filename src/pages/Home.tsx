@@ -43,6 +43,9 @@ const Home: React.FC = () => {
                         normalizedHeight: targetHeight
                     });
                     currentRowWidth[rowIndex] += normalizedWidth;
+                    
+                    // Update state immediately after each image is processed
+                    setNormalizedIllustrations([...rows]);
                 }
 
                 // Stop if both rows are filled
@@ -52,8 +55,6 @@ const Home: React.FC = () => {
                     break;
                 }
             }
-
-            setNormalizedIllustrations(rows);
         };
 
         normalizeIllustrations();
@@ -79,8 +80,14 @@ const Home: React.FC = () => {
             <section className="mb-4 w-full max-w-full">
                 {normalizedIllustrations.map((row, rowIndex) => (
                     <div key={rowIndex} className="flex justify-center mb-3">
-                        {row.map((illustration) => (
-                            <div key={illustration.id} className="relative group overflow-hidden rounded-lg shadow-lg mr-3 flex-shrink-0">
+                        {row.map((illustration, index) => (
+                            <motion.div
+                                key={illustration.id}
+                                className="relative group overflow-hidden rounded-lg shadow-lg mr-3 flex-shrink-0"
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
+                            >
                                 <img
                                     src={illustration.imageUrl}
                                     alt={illustration.title}
@@ -94,7 +101,7 @@ const Home: React.FC = () => {
                                 <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                                     <p className="text-white text-center p-2 text-sm">{illustration.title}</p>
                                 </div>
-                            </div>
+                            </motion.div>
                         ))}
                     </div>
                 ))}
@@ -105,19 +112,6 @@ const Home: React.FC = () => {
                     </Link>
                 </div>
             </section>
-{/* 
-            <section className="mt-16 text-center max-w-xl mb-8">
-                <h2 className="text-2xl font-bold mb-3">Let's Connect</h2>
-                <p className="text-base mb-4 leading-relaxed">
-                    I love hearing from fellow artists, gamers, and creative minds!
-                </p>
-                <Link 
-                    to="/about" 
-                    className="inline-flex items-center text-gray-600 hover:text-gray-800 transition-colors duration-300 text-base border-gray-300 hover:border-gray-600">
-                    Learn More About Me
-                    <ArrowRight className="ml-2" size={16} />
-                </Link>
-            </section> */}
         </motion.div>
     );
 };
