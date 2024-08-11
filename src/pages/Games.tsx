@@ -2,58 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink, Lock } from 'lucide-react';
 import { PAGE_TRANSITION_DISTANCE, PAGE_TRANSITION_DURATION } from '../constants/animConstants';
-
-export enum Platform {
-  Browser = "Browser",
-  Windows = "Windows",
-  Linux = "Linux",
-  MacOS = "MacOS",
-  Android = "Android",
-  iOS = "iOS"
-}
-
-export interface Game {
-  title: string;
-  description: string;
-  imageUrl: string;
-  link?: string;
-  genre: string;
-  platforms: Platform[];
-}
-
-const games: Game[] = [
-  {
-    title: 'Softie',
-    description: 'COMING SOON!',
-    imageUrl: 'https://via.placeholder.com/800x400',
-    genre: 'Platformer',
-    platforms: [Platform.Browser]
-  },
-  {
-    title: 'TREE',
-    description: "A tree's gotta do what a tree's gotta do.",
-    imageUrl: 'https://img.itch.zone/aW1nLzEzOTQ5MTA5LnBuZw==/315x250%23c/pS3VCn.png',
-    link: 'https://eowm.itch.io/tree',
-    genre: 'Adventure',
-    platforms: [Platform.Browser]
-  },
-  {
-    title: 'One Room',
-    description: 'Escape from a fishy room.',
-    imageUrl: 'https://img.itch.zone/aW1nLzEzMDczNDI2LnBuZw==/315x250%23c/TAZBN%2B.png',
-    link: 'https://eowm.itch.io/one-room',
-    genre: 'Puzzle',
-    platforms: [Platform.Browser]
-  },
-  {
-    title: "Baby, Don't Leave Me! (Game Jam)",
-    description: 'Hold on to your baby!',
-    imageUrl: 'https://img.itch.zone/aW1nLzQ5ODIxNzYucG5n/315x250%23c/ctK8s4.png', // Replace with actual image
-    link: 'https://eowm.itch.io/baby-dont-leave-me',
-    genre: 'Platformer',
-    platforms: [Platform.Windows]
-  },
-];
+import { Game, GamesData, Platform } from '../data/GamesData';
 
 const Games: React.FC = () => {
   return (
@@ -77,7 +26,7 @@ const Games: React.FC = () => {
       <p className="text-center mb-8 text-xl">I ♥ makin and playin games!! woop woop</p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-        {games.map((game, index) => (
+        {GamesData.map((game, index) => (
           <GameCard key={index} game={game} />
         ))}
       </div>
