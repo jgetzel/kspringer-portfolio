@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ExternalLinkIcon, Loader } from 'lucide-react';
+import { ArrowRight, Loader } from 'lucide-react';
 import { illustrationsData } from '../data/illustrationsData';
 import { PAGE_TRANSITION_DISTANCE, PAGE_TRANSITION_DURATION } from '../constants/animConstants';
 import { loadImageDimensions } from '../helpers/IllustrationHelper';
@@ -9,7 +9,7 @@ import { GamesData } from '../data/GamesData';
 
 interface NormalizedIllustration {
     id: string;
-    title: string;
+    title?: string;
     imageUrl: string;
     normalizedWidth: number;
     normalizedHeight: number;

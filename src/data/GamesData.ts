@@ -20,7 +20,7 @@ export const GamesData: Game[] = [
     {
       title: 'Softie',
       description: 'COMING SOON!',
-      imageUrl: 'https://via.placeholder.com/800x400',
+      imageUrl: '/game_art/Softie_Cover.PNG',
       genre: 'Platformer',
       platforms: [Platform.Browser]
     },

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import IllustrationCard from '../components/IllustrationCard';
 import { illustrationsData } from '../data/illustrationsData';
 import { Illustration } from '../types/Illustration';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import IllustrationModal from '../components/IllustrationModal';
 import { loadImageDimensions } from '../helpers/IllustrationHelper';
 import { PAGE_TRANSITION_DISTANCE, PAGE_TRANSITION_DURATION } from '../constants/animConstants';

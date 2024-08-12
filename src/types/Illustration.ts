@@ -1,6 +1,6 @@
 export type Illustration = {
     id: string;
-    title: string;
+    title?: string;
     imageUrl: string;
-    description: string;
+    description?: string;
   };

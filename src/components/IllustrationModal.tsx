@@ -1,13 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
-
-// Define the structure of an individual illustration
-interface Illustration {
-  imageUrl: string;
-  title: string;
-  description: string;
-}
+import {Illustration} from "../types/Illustration";
 
 // Define the props for the IllustrationModal component
 interface IllustrationModalProps {
@@ -66,7 +60,7 @@ const IllustrationModal: React.FC<IllustrationModalProps> = ({
 
           <AnimatedImage
             src={currentIllustration.imageUrl}
-            alt={currentIllustration.title}
+            alt={currentIllustration.title || `Illustration ${currentIndex + 1}`}
             direction={direction}
           />
         </div>

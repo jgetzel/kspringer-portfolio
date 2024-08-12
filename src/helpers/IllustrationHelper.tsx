@@ -1,4 +1,3 @@
-import { Illustration } from "../types/Illustration";
 
 // Function to load an image and return its dimensions
 export const loadImageDimensions = (imagePath: string): Promise<{ width: number, height: number }> => {
