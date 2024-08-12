@@ -49,14 +49,15 @@ const Home: React.FC = () => {
 
     useEffect(() => {
         const normalizeIllustrations = async () => {
-            const targetHeight = 200; // Reduced height for two rows
+            const targetHeight = 200;
             const rows: NormalizedIllustration[][] = [[], []];
             let currentRowWidth = [0, 0];
 
-            // First, create placeholder elements for all illustrations
+            const placeholderWidth = 200; // Default placeholder width
+
+            // First, create placeholder elements
             for (const illustration of illustrationsData) {
                 const rowIndex = currentRowWidth[0] <= currentRowWidth[1] ? 0 : 1;
-                const placeholderWidth = 200; // Default placeholder width
 
                 if (currentRowWidth[rowIndex] + placeholderWidth <= containerWidth) {
                     rows[rowIndex].push({
@@ -67,13 +68,12 @@ const Home: React.FC = () => {
                     });
                     currentRowWidth[rowIndex] += placeholderWidth;
                     setNormalizedIllustrations([...rows]);
-                }
-
-                // Stop if both rows are filled
-                if (rows[0].length > 0 && rows[1].length > 0 && 
-                    currentRowWidth[0] + placeholderWidth > containerWidth && 
-                    currentRowWidth[1] + placeholderWidth > containerWidth) {
-                    break;
+                } else {
+                    // Stop adding to this row if it exceeds container width
+                    if (rowIndex === 1) {
+                        // Both rows are full, stop the loop
+                        break;
+                    }
                 }
             }
 
@@ -84,12 +84,20 @@ const Home: React.FC = () => {
                     const { width, height } = await loadImageDimensions(illustration.imageUrl);
                     const normalizedWidth = (width / height) * targetHeight;
 
-                    rows[rowIndex][colIndex] = {
-                        ...illustration,
-                        normalizedWidth,
-                        normalizedHeight: targetHeight,
-                        isLoaded: true
-                    };
+                    // Check if the actual image size still fits
+                    if (currentRowWidth[rowIndex] - placeholderWidth + normalizedWidth <= containerWidth) {
+                        rows[rowIndex][colIndex] = {
+                            ...illustration,
+                            normalizedWidth,
+                            normalizedHeight: targetHeight,
+                            isLoaded: true
+                        };
+                        currentRowWidth[rowIndex] = currentRowWidth[rowIndex] - placeholderWidth + normalizedWidth;
+                    } else {
+                        // Remove this illustration if it doesn't fit
+                        rows[rowIndex].splice(colIndex, 1);
+                        colIndex--;
+                    }
 
                     setNormalizedIllustrations([...rows]);
                 }
@@ -149,64 +157,20 @@ const Home: React.FC = () => {
             animate="visible"
             exit="exit"
             variants={pageAnimVariants}
-            transition={{ duration: PAGE_TRANSITION_DURATION }}
+            transition={{duration: PAGE_TRANSITION_DURATION}}
             className="flex flex-col justify-center items-center mt-2 mx-4 sm:mx-6 md:mx-12 lg:mx-24 font-karla"
         >
+            <Divider/>
 
-            <Divider />
-
-            <section className="mb-4 w-full max-w-full">
-                {normalizedIllustrations.map((row, rowIndex) => (
-                    <div key={rowIndex} className="flex justify-center mb-3">
-                        {row.map((illustration, index) => (
-                            <motion.div
-                                key={illustration.id}
-                                className="relative group overflow-hidden rounded-lg shadow-lg mr-3 flex-shrink-0"
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
-                                style={{
-                                    width: `${illustration.normalizedWidth}px`,
-                                    height: `${illustration.normalizedHeight}px`,
-                                }}
-                            >
-                                {illustration.isLoaded ? (
-                                    <img
-                                        src={illustration.imageUrl}
-                                        alt={illustration.title}
-                                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                                    />
-                                ) : (
-                                    <div className="w-full h-full flex items-center justify-center bg-gray-200">
-                                        <Loader className="animate-spin text-gray-400" size={24} />
-                                    </div>
-                                )}
-                                <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                                    <p className="text-white text-center p-2 text-sm">{illustration.title}</p>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
-                ))}
-                <div className="mt-8 text-center">
-                    <Link to="/illustrations" className="inline-flex items-center text-gray-600 hover:text-gray-800 transition-colors duration-300 text-base">
-                        View All Illustrations
-                        <ArrowRight className="ml-1" size={18} />
-                    </Link>
-                </div>
-            </section>
-
-            <Divider />
-
-            <section className="mb-4 w-full max-w-full">
+            <section className="w-full max-w-full">
                 <div className="flex justify-center mb-3">
                     {normalizedGames.map((game, index) => (
                         <motion.div
                             key={game.title}
                             className="relative group overflow-hidden rounded-lg shadow-lg mr-3 flex-shrink-0"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
+                            initial={{opacity: 0, y: 20}}
+                            animate={{opacity: 1, y: 0}}
+                            transition={{duration: 0.5, delay: 0.2 + index * 0.1}}
                             style={{
                                 width: `${game.normalizedWidth}px`,
                                 height: `${game.normalizedHeight}px`,
@@ -220,19 +184,66 @@ const Home: React.FC = () => {
                                 />
                             ) : (
                                 <div className="w-full h-full flex items-center justify-center bg-gray-200">
-                                    <Loader className="animate-spin text-gray-400" size={24} />
+                                    <Loader className="animate-spin text-gray-400" size={24}/>
                                 </div>
                             )}
-                            <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <div
+                                className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                                 <p className="text-white text-center p-2 text-sm">{game.title}</p>
                             </div>
                         </motion.div>
                     ))}
                 </div>
                 <div className="mt-4 text-center">
-                    <Link to="/games" className="inline-flex items-center text-gray-600 hover:text-gray-800 transition-colors duration-300 text-base">
+                    <Link to="/games"
+                          className="inline-flex items-center text-gray-600 hover:text-gray-800 transition-colors duration-300 text-base">
                         View All Games
-                        <ArrowRight className="ml-1" size={18} />
+                        <ArrowRight className="ml-1" size={18}/>
+                    </Link>
+                </div>
+            </section>
+
+            <Divider/>
+
+            <section className="mb-4 w-full max-w-full">
+                {normalizedIllustrations.map((row, rowIndex) => (
+                    <div key={rowIndex} className="flex justify-center mb-3">
+                        {row.map((illustration, index) => (
+                            <motion.div
+                                key={illustration.id}
+                                className="relative group overflow-hidden rounded-lg shadow-lg mr-3 flex-shrink-0"
+                                initial={{opacity: 0, y: 20}}
+                                animate={{opacity: 1, y: 0}}
+                                transition={{duration: 0.5, delay: 0.2 + index * 0.1}}
+                                style={{
+                                    width: `${illustration.normalizedWidth}px`,
+                                    height: `${illustration.normalizedHeight}px`,
+                                }}
+                            >
+                                {illustration.isLoaded ? (
+                                    <img
+                                        src={illustration.imageUrl}
+                                        alt={illustration.title}
+                                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                                    />
+                                ) : (
+                                    <div className="w-full h-full flex items-center justify-center bg-gray-200">
+                                        <Loader className="animate-spin text-gray-400" size={24}/>
+                                    </div>
+                                )}
+                                <div
+                                    className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                    <p className="text-white text-center p-2 text-sm">{illustration.title}</p>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                ))}
+                <div className="mt-8 text-center">
+                    <Link to="/illustrations"
+                          className="inline-flex items-center text-gray-600 hover:text-gray-800 transition-colors duration-300 text-base">
+                        View All Illustrations
+                        <ArrowRight className="ml-1" size={18}/>
                     </Link>
                 </div>
             </section>
